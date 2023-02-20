@@ -1,0 +1,41 @@
+@page "/Employees"
+@using Blazorweb.Data
+@using Blazorweb.Services
+@using System.Collections.Generic;
+@inherits OwningComponentBase<EmployeeService>;
+@inject EmployeeService employeeService
+
+<h1>Employees</h1>
+    <table>
+        <tbody>
+            <tr>
+                <th>id</th>
+                <th>Email</th>
+                <th>Name</th>
+            </tr>
+            @foreach (var item in emps)
+            {
+                <tr>
+                    <td>@item.id</td>
+                    <td>@item.email</td>
+                    <td>@item.fname</td>
+                    <td><a href="EditUser/@item.id"><span aria-hidden="true">Edit</span></a></td>
+                </tr>
+            }
+         
+            
+        </tbody>
+    </table>
+
+@code 
+{
+    IList<Employee> emps;
+    
+        protected override async Task OnInitializedAsync()
+        {
+            emps = await employeeService.GetAllEmployeesAsync();
+        }
+
+
+    
+}

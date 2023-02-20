@@ -1,0 +1,45 @@
+@page "/EditUser/{id}"
+@using Blazorweb.Data
+@using Blazorweb.Services
+@using System.Collections.Generic
+@inherits OwningComponentBase<EmployeeService>
+@inject EmployeeService employeeService
+@inject NavigationManager Navi
+
+<h2>Edit Users</h2>
+
+<div>
+    <form>
+        <div>
+            <label for="Email">Email</label>
+            <input type="email" @bind-value="@obj.email">@obj.email</input>
+        </div>
+        <div>
+            <label for="password">Password</label>
+            <input type="password" @bind-value="@obj.password">@obj.password</input>
+        </div>
+         <div>
+            <label for="fname">Name</label>
+            <input type="text" @bind-value="@obj.fname">@obj.fname</input>
+        </div>
+        <div>
+            <Input type="button" value="Update" @onclick="@Updateusers"></Input>
+        </div>
+    </form>
+</div>
+
+@code {
+    [Parameter]
+    public string id {get; set;}
+    Employee obj = new Employee();
+        protected override async Task OnInitializedAsync()
+        {
+            obj = await employeeService.GetEmployeeAsync(Convert.ToInt32(id));
+            
+        }
+        protected async void Updateusers()
+        {
+            await employeeService.UpdateusersAsync(obj);
+            Navi.NavigateTo("/Employees");
+        }
+}

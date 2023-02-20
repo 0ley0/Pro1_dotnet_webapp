@@ -1,0 +1,40 @@
+@page "/Addusers"
+@using Blazorweb.Data
+@using Blazorweb.Services
+@using System.Collections.Generic
+@inherits OwningComponentBase<EmployeeService>
+@inject EmployeeService employeeService
+@inject NavigationManager Navi
+
+
+<h1>Add Username</h1>
+
+<div>
+    <form>
+        <div>
+            <label for="Email">Email</label>
+            <input type="email" @bind="@obj.email"></input>
+        </div>
+        <div>
+            <label for="password">Password</label>
+            <input type="password" @bind="@obj.password"></input>
+        </div>
+         <div>
+            <label for="fname">Name</label>
+            <input type="text" @bind="@obj.fname"></input>
+        </div>
+        <div>
+            <Input type="button" value="Save" @onclick="@CreateUser"></Input>
+        </div>
+    </form>
+</div>
+
+@code 
+{
+    Employee  obj = new Employee ();
+    protected async void CreateUser()
+    {
+        await employeeService.Insertusers(obj);
+        Navi.NavigateTo("/Employees");
+    }
+}
